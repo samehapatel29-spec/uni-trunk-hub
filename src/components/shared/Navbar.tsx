@@ -1,6 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { GraduationCap, Menu } from "lucide-react";
 import { useState } from "react";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { ProfileAvatar } from "@/components/shared/ProfileAvatar";
+
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -37,6 +40,8 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <ProfileAvatar />
           <a
             href="#login"
             className="hidden rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-card sm:inline-block"
