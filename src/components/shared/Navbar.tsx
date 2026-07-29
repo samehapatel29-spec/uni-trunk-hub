@@ -1,12 +1,35 @@
 import { Link } from "@tanstack/react-router";
-import { GraduationCap, Menu } from "lucide-react";
-import { useState } from "react";
+import { GraduationCap, Menu, LogOut } from "lucide-react";
+import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { ProfileAvatar } from "@/components/shared/ProfileAvatar";
-
+import { SellItemDialog } from "@/components/landing/SellItemDialog";
+import { AuthDialog } from "@/components/shared/AuthDialog";
+import { supabase } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
+import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+  };
 
   const links = [
     { href: "#browse", label: "Browse" },
@@ -19,12 +42,7 @@ export function Navbar() {
     <header className="glass-nav sticky top-0 z-50">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-5">
         <Link to="/" className="flex shrink-0 items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-primary text-primary-foreground shadow-[var(--shadow-glow)]">
-            <GraduationCap className="h-5 w-5" />
-          </span>
-          <span className="font-display text-lg font-bold tracking-tight text-foreground">
-            CampusCart
-          </span>
+          <img src="/Logo.png" alt="CampusCart Logo" className="h-9 w-auto object-contain" />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -41,19 +59,47 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <ProfileAvatar />
-          <a
-            href="#login"
-            className="hidden rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-card sm:inline-block"
-          >
-            Sign in
-          </a>
-          <a
-            href="#signup"
-            className="inline-flex items-center rounded-full bg-gradient-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5"
-          >
-            Sell an item
-          </a>
+          
+          {user ? (
+            <>
+              <ProfileAvatar />
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleLogout}
+                className="rounded-full"
+                aria-label="Log out"
+              >
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </>
+          ) : (
+            <AuthDialog>
+              <button
+                className="hidden rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-card sm:inline-block"
+              >
+                Sign in
+              </button>
+            </AuthDialog>
+          )}
+
+          {user ? (
+            <SellItemDialog>
+              <button
+                className="inline-flex items-center rounded-full bg-gradient-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5"
+              >
+                Sell
+              </button>
+            </SellItemDialog>
+          ) : (
+            <AuthDialog mode="signup">
+              <button
+                className="inline-flex items-center rounded-full bg-gradient-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5"
+              >
+                Sell
+              </button>
+            </AuthDialog>
+          )}
           <button
             aria-label="Menu"
             onClick={() => setOpen((o) => !o)}

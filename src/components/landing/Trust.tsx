@@ -14,7 +14,7 @@ export function Trust() {
             No random accounts. <span className="text-gradient">Only your classmates.</span>
           </h2>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-            Every seller is a verified engineering student from your college.
+            Every seller is a verified student from your college.
             No fake profiles, no strangers — just the batch above and below yours.
           </p>
         </div>

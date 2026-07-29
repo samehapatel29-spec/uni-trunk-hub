@@ -16,8 +16,8 @@ export function Hero() {
 
           <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-5xl md:text-6xl">
             The marketplace{" "}
-            <span className="text-gradient">built for engineers</span>,
-            by engineers.
+            <span className="text-gradient">built for students</span>,
+            by students.
           </h1>
 
           <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
