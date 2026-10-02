@@ -15,17 +15,17 @@ export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({
     meta: [
-      { title: "CampusCart — The marketplace for students" },
+      { title: "CampusCart — Buy and sell around campus" },
       {
         name: "description",
         content:
-          "Buy and sell books, calculators, laptops and Arduino kits with verified students from your own college.",
+          "Browse used books, calculators, cycles, lab kits and electronics from students around campus.",
       },
-      { property: "og:title", content: "CampusCart — Marketplace for students" },
+      { property: "og:title", content: "CampusCart — Buy and sell around campus" },
       {
         property: "og:description",
         content:
-          "A safe, campus-only marketplace. Only verified students can list and message.",
+          "Find useful student gear nearby and arrange an easy campus pickup.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -59,8 +59,8 @@ function Landing() {
         ) : (
           <Hero />
         )}
-        <Categories />
-        <Featured />
+        {!user && <Categories />}
+        {!user && <Featured />}
         <HowItWorks />
         <Trust />
         <CtaFooter />
