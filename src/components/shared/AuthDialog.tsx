@@ -54,6 +54,8 @@ export function AuthDialog({
 
   const form = useForm<z.infer<typeof authSchema>>({
     resolver: zodResolver(authSchema),
+    mode: "onBlur",
+    reValidateMode: "onChange",
     defaultValues: {
       email: "",
       password: "",
@@ -115,13 +117,13 @@ export function AuthDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[420px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-lg sm:max-w-[400px]">
         <DialogHeader>
-          <DialogTitle>{mode === "signin" ? "Student Sign In" : "Student Registration"}</DialogTitle>
+          <DialogTitle>{mode === "signin" ? "Sign in to CampusCart" : "Join CampusCart"}</DialogTitle>
           <DialogDescription>
             {mode === "signin" 
-              ? "Access your campus marketplace." 
-              : "Register with your details for admin verification."}
+              ? "Pick up where you left off." 
+              : "Use your student details. Verification happens after signup."}
           </DialogDescription>
         </DialogHeader>
 
@@ -138,7 +140,7 @@ export function AuthDialog({
                       <FormControl>
                         <div className="relative">
                           <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                          <Input className="pl-9" placeholder="John Doe" {...field} />
+                          <Input className="pl-9" placeholder="Your full name" {...field} />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -155,7 +157,7 @@ export function AuthDialog({
                         <FormControl>
                           <div className="relative">
                             <Hash className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input className="pl-9" placeholder="CS101" {...field} />
+                            <Input className="pl-9" placeholder="e.g. 22CS104" {...field} />
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -202,7 +204,7 @@ export function AuthDialog({
                   <FormControl>
                     <div className="relative">
                       <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                      <Input className="pl-9" placeholder="you@example.com" {...field} />
+                      <Input className="pl-9" placeholder="you@college.edu" {...field} />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -227,27 +229,27 @@ export function AuthDialog({
               )}
             />
 
-            <Button type="submit" className="w-full mt-4 bg-gradient-primary shadow-[var(--shadow-glow)]" disabled={loading}>
+            <Button type="submit" className="mt-4 w-full" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Processing...
                 </>
               ) : (
-                mode === "signin" ? "Sign In" : "Register for Verification"
+                mode === "signin" ? "Sign in" : "Create account"
               )}
             </Button>
 
             <div className="text-center text-sm text-muted-foreground mt-2">
               {mode === "signin" ? (
                 <p>
-                  New student?{" "}
+                  New to CampusCart?{" "}
                   <button
                     type="button"
                     onClick={() => setMode("signup")}
                     className="font-semibold text-primary hover:underline"
                   >
-                    Create Account
+                    Create account
                   </button>
                 </p>
               ) : (
