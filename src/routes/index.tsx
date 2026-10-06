@@ -52,15 +52,10 @@ function Landing() {
     <div className="min-h-screen">
       <Navbar />
       <main>
-        {user ? (
-          <div className="bg-muted/30 py-8">
-            <StudentProfile />
-          </div>
-        ) : (
-          <Hero />
-        )}
-        {!user && <Categories />}
-        {!user && <Featured />}
+        <Hero />
+        <Categories />
+        <Featured />
+        {user && <StudentProfile />}
         <HowItWorks />
         <Trust />
         <CtaFooter />

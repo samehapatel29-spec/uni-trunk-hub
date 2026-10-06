@@ -39,7 +39,7 @@ export function ProfileAvatar() {
       type="button"
       onClick={() => inputRef.current?.click()}
       aria-label="Upload profile picture"
-      className="group relative grid h-10 w-10 place-items-center overflow-hidden rounded-full border border-border bg-card/60 text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+      className="group relative grid h-10 w-10 place-items-center overflow-hidden rounded-md border border-border bg-card text-muted-foreground transition-colors hover:border-primary hover:text-primary"
     >
       {src ? (
         <img src={src} alt="Your profile" className="h-full w-full object-cover" />
