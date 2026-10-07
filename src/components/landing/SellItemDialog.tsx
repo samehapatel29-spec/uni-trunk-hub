@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
-import { Camera, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
@@ -100,11 +100,11 @@ export function SellItemDialog({ children }: { children: React.ReactNode }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-lg sm:max-w-[430px]">
         <DialogHeader>
-          <DialogTitle>Sell an Item</DialogTitle>
+          <DialogTitle>List an item on CampusCart</DialogTitle>
           <DialogDescription>
-            Fill in the details below to list your item for other students.
+            Add the basics students need before messaging you.
           </DialogDescription>
         </DialogHeader>
 
@@ -115,24 +115,24 @@ export function SellItemDialog({ children }: { children: React.ReactNode }) {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Item name</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Organic Chemistry Textbook" {...field} />
+                    <Input placeholder="e.g. Engineering Mathematics textbook" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <FormField
                 control={form.control}
                 name="price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price ($)</FormLabel>
+                    <FormLabel>Price (₹)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="0.00" {...field} />
+                      <Input type="number" placeholder="450" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -154,7 +154,7 @@ export function SellItemDialog({ children }: { children: React.ReactNode }) {
                         <SelectItem value="books">Books</SelectItem>
                         <SelectItem value="electronics">Electronics</SelectItem>
                         <SelectItem value="furniture">Furniture</SelectItem>
-                        <SelectItem value="dorm-essentials">Dorm Essentials</SelectItem>
+                        <SelectItem value="dorm-essentials">Hostel essentials</SelectItem>
                         <SelectItem value="clothing">Clothing</SelectItem>
                       </SelectContent>
                     </Select>
@@ -196,7 +196,7 @@ export function SellItemDialog({ children }: { children: React.ReactNode }) {
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Describe the item's condition, usage, etc."
+                      placeholder="Mention condition, age, and a convenient pickup spot."
                       className="resize-none"
                       {...field}
                     />
@@ -210,10 +210,10 @@ export function SellItemDialog({ children }: { children: React.ReactNode }) {
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Listing...
+                  Posting...
                 </>
               ) : (
-                "Post Item"
+                "Post item"
               )}
             </Button>
           </form>
