@@ -1,0 +1,196 @@
+import type { Listing, SellerProfile } from "./types";
+import textbook from "@/assets/listing-textbook.jpg";
+import calculator from "@/assets/listing-calculator.jpg";
+import arduino from "@/assets/listing-arduino.jpg";
+import cycle from "@/assets/listing-cycle.jpg";
+
+/**
+ * Clearly-identified sample listings, used only when the database has no
+ * real listings yet (or is unreachable, e.g. local preview). They are never
+ * mixed into real results: `getListings` returns either real rows or these.
+ */
+
+const seller = (
+  id: string,
+  name: string,
+  department: string,
+  status: "verified" | "pending",
+): SellerProfile => ({
+  id: `demo-seller-${id}`,
+  full_name: name,
+  department,
+  roll_no: null,
+  avatar_url: null,
+  verification_status: status,
+});
+
+let day = 0;
+const daysAgo = (n: number) => new Date(Date.now() - n * 86400000).toISOString();
+
+const demo = (
+  partial: Partial<Listing> & Pick<Listing, "id" | "title" | "price" | "category_slug" | "category_name">,
+): Listing => ({
+  description: null,
+  original_price: null,
+  condition: "Good",
+  status: "available",
+  image_url: null,
+  images: [],
+  pickup_location: null,
+  seller: null,
+  created_at: daysAgo(day++),
+  isDemo: true,
+  ...partial,
+});
+
+export const DEMO_LISTINGS: Listing[] = [
+  demo({
+    id: "demo-1",
+    title: "Engineering Mathematics textbook + class notes",
+    price: 450,
+    original_price: 925,
+    category_slug: "books",
+    category_name: "Books",
+    condition: "Good",
+    image_url: textbook,
+    images: [textbook],
+    pickup_location: "Girls' Hostel gate",
+    seller: seller("1", "Aditi Sharma", "CSE · 3rd year", "verified"),
+    description:
+      "B.S. Grewal, 44th edition. Highlighted in a few chapters, spine intact. Includes my handwritten formula notes for sem 1–2.",
+  }),
+  demo({
+    id: "demo-2",
+    title: "Casio fx-991ES Plus scientific calculator",
+    price: 700,
+    original_price: 1195,
+    category_slug: "calculators",
+    category_name: "Calculators",
+    condition: "Like New",
+    image_url: calculator,
+    images: [calculator],
+    pickup_location: "Main library",
+    seller: seller("2", "Rohan Patil", "ME · 2nd year", "verified"),
+    description: "Bought last year for exams, barely used. All keys work, no scratches on the display.",
+  }),
+  demo({
+    id: "demo-3",
+    title: "Arduino Uno starter kit (complete)",
+    price: 1150,
+    category_slug: "lab-kits",
+    category_name: "Lab Kits",
+    condition: "Good",
+    image_url: arduino,
+    images: [arduino],
+    pickup_location: "ECE block",
+    seller: seller("3", "Neha Kulkarni", "ECE · 4th year", "verified"),
+    description: "Uno R3, breadboard, jumper wires, LEDs, resistors, servo and sensors. Everything tested before listing.",
+  }),
+  demo({
+    id: "demo-4",
+    title: "Campus cycle with lock",
+    price: 3200,
+    category_slug: "cycles",
+    category_name: "Cycles",
+    condition: "Fair",
+    image_url: cycle,
+    images: [cycle],
+    pickup_location: "Hostel Block C",
+    seller: seller("4", "Kabir Singh", "Civil · 2nd year", "pending"),
+    description: "Hero cycle, 2 years old. Brakes and gears work fine, paint has scratches. New lock included.",
+  }),
+  demo({
+    id: "demo-5",
+    title: "First-year engineering mechanics bundle",
+    price: 600,
+    category_slug: "books",
+    category_name: "Books",
+    condition: "Good",
+    image_url: textbook,
+    images: [textbook],
+    pickup_location: "Academic Block 2",
+    seller: seller("5", "Ishaan Verma", "ME · 3rd year", "verified"),
+    description: "Beer & Johnston plus two local reference books. Enough for both mechanics semesters.",
+  }),
+  demo({
+    id: "demo-6",
+    title: "Scientific calculator fx-991EX",
+    price: 550,
+    category_slug: "calculators",
+    category_name: "Calculators",
+    condition: "Good",
+    image_url: calculator,
+    images: [calculator],
+    pickup_location: "Central canteen",
+    seller: seller("6", "Meera Joshi", "EEE · 2nd year", "verified"),
+  }),
+  demo({
+    id: "demo-7",
+    title: "ESP32 + sensor bundle",
+    price: 900,
+    category_slug: "electronics",
+    category_name: "Electronics",
+    condition: "Like New",
+    image_url: arduino,
+    images: [arduino],
+    pickup_location: "Innovation lab",
+    seller: seller("7", "Anuj Deshmukh", "ECE · 4th year", "pending"),
+    description: "ESP32 dev board, DHT11, ultrasonic and IR sensors. Leftover from my final-year project, all working.",
+  }),
+  demo({
+    id: "demo-8",
+    title: "Blue city cycle, recently serviced",
+    price: 2800,
+    category_slug: "cycles",
+    category_name: "Cycles",
+    condition: "Good",
+    image_url: cycle,
+    images: [cycle],
+    pickup_location: "Hostel Block B",
+    seller: seller("8", "Sana Sheikh", "IT · 2nd year", "verified"),
+  }),
+  demo({
+    id: "demo-9",
+    title: "DSP handwritten notes (sem 6 ECE)",
+    price: 200,
+    category_slug: "notes",
+    category_name: "Notes",
+    condition: "Like New",
+    pickup_location: "ECE block",
+    seller: seller("9", "Priya Nair", "ECE · 4th year", "verified"),
+    description: "Complete unit-wise notes with solved previous-year questions. Scanned copy shared after pickup too.",
+  }),
+  demo({
+    id: "demo-10",
+    title: "HP laptop i5 / 8GB / 256GB SSD",
+    price: 18500,
+    original_price: 52000,
+    category_slug: "laptops",
+    category_name: "Laptops",
+    condition: "Fair",
+    pickup_location: "Boys' Hostel gate",
+    seller: seller("10", "Arjun Mehta", "CSE · 4th year", "verified"),
+    description: "3 years old, battery lasts ~2 hours, fresh Windows install. Good for coding and classes.",
+  }),
+  demo({
+    id: "demo-11",
+    title: "Study lamp + extension board",
+    price: 250,
+    category_slug: "hostel-essentials",
+    category_name: "Hostel Essentials",
+    condition: "Like New",
+    pickup_location: "Hostel Block A",
+    seller: seller("11", "Divya Rao", "Civil · 1st year", "verified"),
+  }),
+  demo({
+    id: "demo-12",
+    title: "Engineering drawing kit",
+    price: 350,
+    category_slug: "lab-kits",
+    category_name: "Lab Kits",
+    condition: "Good",
+    status: "sold",
+    pickup_location: "Academic Block 1",
+    seller: seller("12", "Vikram Pawar", "ME · 1st year", "verified"),
+  }),
+];
