@@ -1,4 +1,5 @@
 import { CONDITIONS, type Category, type ListingFilters, type SortKey } from "@/lib/marketplace/types";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -21,13 +22,15 @@ export function FilterControls({
   filters,
   categories,
   onChange,
+  className,
 }: {
   filters: ListingFilters;
   categories: Category[];
   onChange: (patch: Partial<ListingFilters>) => void;
+  className?: string;
 }) {
   return (
-    <div className="space-y-4">
+    <div className={className ?? "space-y-4"}>
       <div className="space-y-1.5">
         <Label htmlFor="filter-category">Category</Label>
         <Select
